@@ -1,7 +1,13 @@
 subprojects { project ->
+    afterEvaluate {
+        if (project.hasProperty('android')) {
+            project.android {
+                compileSdkVersion 36
+            }
+        }
+    }
     project.pluginManager.withPlugin('com.android.library') {
         project.android {
-            compileSdkVersion 36
             if (namespace == null) {
                 def ns = project.group.toString()
                 if (ns == null || ns.isEmpty()) {
