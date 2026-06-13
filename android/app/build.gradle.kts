@@ -67,8 +67,12 @@ android {
 
     buildTypes {
         release {
-            // Menggunakan keystore resmi dari file key.properties
-            signingConfig = signingConfigs.getByName("release")
+            // Menggunakan keystore resmi jika ada, jika tidak (di server GitHub) gunakan debug
+            if (keystorePropertiesFile.exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            } else {
+                signingConfig = signingConfigs.getByName("debug")
+            }
         }
     }
 }
