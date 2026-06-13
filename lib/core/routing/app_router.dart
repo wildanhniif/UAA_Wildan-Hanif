@@ -11,18 +11,19 @@ import '../../features/todo/presentation/pages/todo_page.dart';
 import '../../features/native/presentation/pages/native_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 import '../../features/bookmark/presentation/pages/bookmark_page.dart';
+import '../../features/sync/presentation/pages/background_sync_page.dart';
+import '../../features/animation/presentation/pages/animation_page.dart';
+import '../../features/auth/presentation/pages/login_screen.dart';
 
 class AppRouter {
   // Flag untuk memastikan Splash selalu tampil di awal (fresh launch)
-  static bool _splashShown = false;
-  static bool get splashShown => _splashShown;
-  static set splashShown(bool v) => _splashShown = v;
+  static bool splashShown = false;
 
   static final router = GoRouter(
     initialLocation: '/splash',
     redirect: (context, state) {
       // Jika splash belum ditampilkan dan user bukan di /splash, paksa ke /splash
-      if (!_splashShown && state.uri.path != '/splash') {
+      if (!splashShown && state.uri.path != '/splash') {
         return '/splash';
       }
       return null; // Tidak ada redirect
@@ -73,6 +74,18 @@ class AppRouter {
       GoRoute(
         path: '/bookmark',
         builder: (context, state) => const BookmarkPage(),
+      ),
+      GoRoute(
+        path: '/sync',
+        builder: (context, state) => const BackgroundSyncPage(),
+      ),
+      GoRoute(
+        path: '/animation',
+        builder: (context, state) => const AnimationPage(),
+      ),
+      GoRoute(
+        path: '/login',
+        builder: (context, state) => const LoginScreen(),
       ),
     ],
     // errorBuilder akan terpanggil jika User membuka path yang tidak terdaftar

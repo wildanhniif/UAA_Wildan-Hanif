@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
+import '../config/env_config.dart'; // Import config
 
 class ApiClient {
   final Dio dio;
   final Logger logger = Logger();
 
   ApiClient() : dio = Dio() {
-    // Menggunakan Platzi API (fakestoreapi.com sedang tidak stabil)
-    dio.options.baseUrl = 'https://api.escuelajs.co/api/v1';
+    // SEKARANG BASE URL BERUBAH SECARA OTOMATIS SESUAI FLAVOR!
+    dio.options.baseUrl = EnvConfig.baseUrl;
     dio.options.connectTimeout = const Duration(seconds: 10);
     dio.options.receiveTimeout = const Duration(seconds: 10);
 

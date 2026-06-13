@@ -40,7 +40,7 @@ class _TodoPageState extends State<TodoPage> {
                   
                   // Elemen tambahan UI hasil Post-Test (Dropdown Prioritas)
                   DropdownButtonFormField<String>(
-                    value: _selectedPrioritas,
+                    initialValue: _selectedPrioritas,
                     decoration: const InputDecoration(labelText: "Prioritas"),
                     items: _prioritasOptions.map((String value) {
                       return DropdownMenuItem<String>(

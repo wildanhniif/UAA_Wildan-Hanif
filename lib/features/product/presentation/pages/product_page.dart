@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/config/env_config.dart'; // Import config
 import '../cubit/product_cubit.dart';
 import '../cubit/product_state.dart';
 import '../../domain/product_model.dart';
@@ -14,11 +15,19 @@ class ProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('UTD Store - Wildan'),
-        backgroundColor: Colors.teal,
+        // Menampilkan judul dinamis + ENV_NAME
+        title: Text('Katalog UTD [${EnvConfig.environment}]'),
+        // Jika Production warnanya Hijau resmi, jika Dev warnanya Biru Gelap
+        backgroundColor: EnvConfig.isProduction ? Colors.green.shade800 : Colors.blueGrey,
         foregroundColor: Colors.white,
         elevation: 0,
         actions: [
+          // Tombol ke halaman Login
+          IconButton(
+            icon: const Icon(Icons.login),
+            tooltip: 'Login (Test UI)',
+            onPressed: () => context.push('/login'),
+          ),
           // Tombol ke halaman Bookmark (Favorites)
           IconButton(
             icon: const Icon(Icons.favorite),
@@ -36,6 +45,18 @@ class ProductPage extends StatelessWidget {
             icon: const Icon(Icons.checklist),
             tooltip: 'To-Do',
             onPressed: () => context.push('/todo'),
+          ),
+          // Tombol ke Background Sync
+          IconButton(
+            icon: const Icon(Icons.cloud_sync),
+            tooltip: 'Sync',
+            onPressed: () => context.push('/sync'),
+          ),
+          // Tombol ke Halaman Animasi
+          IconButton(
+            icon: const Icon(Icons.animation),
+            tooltip: 'Animation',
+            onPressed: () => context.push('/animation'),
           ),
         ],
       ),

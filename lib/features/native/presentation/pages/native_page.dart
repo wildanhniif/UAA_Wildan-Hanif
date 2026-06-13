@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
 class NativePage extends StatefulWidget {
   const NativePage({super.key});
@@ -34,7 +35,7 @@ class _NativePageState extends State<NativePage> {
       await platform.invokeMethod('showToast', {
         "pesan": "WILDAN HANIF - 20123074"
       });
-    } on PlatformException catch (e) {
+    } on PlatformException {
       debugPrint("Gagal Toast: \${e.message}");
     }
   }
@@ -46,7 +47,7 @@ class _NativePageState extends State<NativePage> {
         "title": "Peringatan Sistem",
         "message": "Ini adalah dialog OS murni dari Android, bukan widget Flutter!"
       });
-    } on PlatformException catch (e) {
+    } on PlatformException {
       debugPrint("Gagal Dialog: \${e.message}");
     }
   }
@@ -60,6 +61,17 @@ class _NativePageState extends State<NativePage> {
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,
         elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            if (context.canPop()) {
+              context.pop();
+            } else {
+              // Jika stack kosong (misal karena direct link), paksa ke halaman utama
+              context.go('/');
+            }
+          },
+        ),
       ),
       body: Center(
         child: Padding(

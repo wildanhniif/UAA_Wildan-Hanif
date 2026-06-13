@@ -5,7 +5,6 @@ import '../../bookmark/domain/bookmark_model.dart';
 
 class IsarService {
   static Isar? _db;
-  static bool _initFailed = false;
 
   /// Dipanggil dari main() sebelum runApp
   static Future<void> init() async {
@@ -17,9 +16,7 @@ class IsarService {
         directory: dir.path,
         name: 'utd_store',
       );
-      _initFailed = false;
     } catch (e) {
-      _initFailed = true;
       // ignore: avoid_print
       print('[IsarService] Init gagal: $e');
     }
@@ -29,8 +26,6 @@ class IsarService {
   bool get isAvailable => _db != null && _db!.isOpen;
 
   Isar? get _isar => (isAvailable) ? _db : null;
-
-  // ===================== TODO =====================
 
   Future<void> saveTodo(Todo newTodo) async {
     if (_isar == null) return;

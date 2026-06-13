@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "🔥 RUN: DEVELOPMENT",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "toolArgs": [
+        "--dart-define=ENV_NAME=DEV",
+        "--dart-define=BASE_URL=https://fakestoreapi.com/bukan-api-asli",
+        "--dart-define=SHOW_DEBUG_BANNER=true",
+        "--dart-define=APP_NAME=UTD (Dev)"
+      ]
+    },
+    {
+      "name": "🚀 RUN: PRODUCTION",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "toolArgs": [
+        "--dart-define=ENV_NAME=PRODUCTION",
+        "--dart-define=BASE_URL=https://fakestoreapi.com",
+        "--dart-define=SHOW_DEBUG_BANNER=false",
+        "--dart-define=APP_NAME=UTD Store"
+      ]
+    }
+  ]
+}

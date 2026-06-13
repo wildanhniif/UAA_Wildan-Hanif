@@ -1,0 +1,69 @@
+# Nama Robot Pipeline kita
+name: UTD Advanced CI/CD Pipeline
+
+# Kapan robot ini bekerja? (Setiap kali ada 'push' ke branch 'main')
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+# Apa saja tugas (Jobs) si Robot?
+jobs:
+  build_and_test:
+    # Komputer server yang disewa (Gratis dari GitHub)
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Mengunduh kode dari repository Anda ke server
+      - name: 📥Download / Checkout Code
+        uses: actions/checkout@v3
+
+      # 2. Menginstal Java (dibutuhkan oleh Android)
+      - name: ☕Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      # 3. Menginstal Flutter SDK ke dalam server
+      - name: 🦋Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      # 4. Mengunduh semua package (dio, bloc, isar, dll)
+      - name: 📦Install Dependencies
+        run: flutter pub get
+
+      # 5. Membangun ulang file gaib Isar (build_runner)
+      - name: ⚙️Run Build Runner
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      # 6. Menjalankan Robot Penguji (Unit Test)
+      # Jika langkah ini meledak/gagal, proses ke bawahnya akan dihentikan otomatis!
+      - name: 🧪Run Automated Tests
+        run: flutter test
+
+      # 7. Jika Test lulus, buat file APK!
+      - name: 🛠️Build APK Release
+        run: flutter build apk --release
+
+      # 8. Upload file APK ke halaman GitHub agar bisa kita download!
+      - name: 🚀Upload APK Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: UTD-Advanced-Release-APK
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      # --- TUGAS MANDIRI 2 ---
+      # 9. Buat file App Bundle (AAB) standar Google Play Store
+      - name: 🛠️Build AAB Release
+        run: flutter build appbundle --release
+
+      # 10. Upload file AAB ke halaman GitHub
+      - name: 🚀Upload AAB Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: UTD-Advanced-Release-AAB
+          path: build/app/outputs/bundle/release/app-release.aab
